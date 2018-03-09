@@ -1,0 +1,17 @@
+{
+  "name": "sigtrans",
+  "version": "1.0.0",
+  "description": "Sigtrans nodejs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cors": "^2.8.4",
+    "express": "*",
+    "mongoose": "*"
+  },
+  "author": "Natal Pereira Junior",
+  "license": "ISC"
+}
