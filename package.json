@@ -2,7 +2,7 @@
   "name": "sigtrans",
   "version": "1.0.0",
   "description": "Sigtrans nodejs",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,9 @@
     "cors": "^2.8.4",
     "express": "*",
     "mongoose": "*"
+  },
+  "scripts":{
+    "start": "nodemon"
   },
   "author": "Natal Pereira Junior",
   "license": "ISC"

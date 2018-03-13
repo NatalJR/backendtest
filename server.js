@@ -5,8 +5,8 @@ var cors = require('cors')
 var app = express();
 
 // app.use(express.static(__dirname+'/client'))
+app.use(cors())
 app.use(bodyParser.json());
-// app.use(cors());
 
 AccidentType = require('./models/accidentType');
 // console.log(AccidentType.find({ value: '1' }));
@@ -14,51 +14,53 @@ AccidentType = require('./models/accidentType');
 // connect to mongoose
 mongoose.connect('mongodb://dbadmin:wa602a@localhost:27017/testdb');
 
+//set db
 var db = mongoose.connection;
-
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {console.log("CONNECTED");});
 
-
+//routes
 app.get('/', (req, res) => {
-    res.send('Use /api/whatyouwant for data');
+    res.json({message:'Use /api/whatyouwant for data'});
 });
 
-app.get('/api/AccidentTypes', cors(), (req, res) => {
+app.get('/api', (req, res) => {
+    res.json({message:'Use /api/whatyouwant for data'});
+});
+
+//accident types
+app.get('/api/AccidentTypes', (req, res) => {
     AccidentType.getAccidentTypes((err, accidentTypes)=>{
         if(err){throw(err);}
-        // console.log(accidentTypes.length);
-        res.status(200).json(accidentTypes);
+        res.json(accidentTypes);
     })
-});
+})
 
-app.post('/api/AccidentTypes', cors(), (req, res) => {
+app.post('/api/AccidentTypes', (req, res) => {
     let accidentType = req.body;
     AccidentType.addAccidentType(accidentType, (err, accidentType)=>{
         if(err){throw(err);}
-        // console.log(accidentTypes.length);
         res.status(200).json(accidentType);
     })
-});
+})
 
-app.put('/api/AccidentTypes/:_id', cors(), (req, res) => {
+app.put('/api/AccidentTypes/:_id', (req, res) => {
     let id = req.params._id
     let accidentType = req.body;
     AccidentType.updateAccidentType(id, accidentType, {}, (err, accidentType)=>{
         if(err){throw(err);}
-        // console.log(accidentTypes.length);
-        res.status(200).json(accidentType);
+        res.json(accidentType);
     })
-});
+})
 
-app.delete('/api/AccidentTypes/:_id', cors(), (req, res) => {
+app.delete('/api/AccidentTypes/:_id', (req, res) => {
     let id = req.params._id
     AccidentType.deleteAccidentType(id, (err, accidentType)=>{
-        if(err){throw(err);}
-        // console.log(accidentTypes.length);
-        res.status(200).json(accidentType);
+        if(err)throw(err);
+        res.json(accidentType);
     })
 });
 
-app.listen(3000);
-console.log('Running on port 3000')
+var server = app.listen(process.env.PORT || 3000, () => {
+    console.log("App now running on port", server.address().port);
+});
